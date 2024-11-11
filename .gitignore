@@ -1,0 +1,14 @@
+# Ignore PyCharm project files
+.idea/
+
+# Ignore pytest cache files
+.pytest_cache/
+
+# Ignore virtual environment folders
+env/
+
+# Ignore coverage report folder
+htmlcov/
+
+# Ignore Python cache files
+__pycache__/

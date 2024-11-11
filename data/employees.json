@@ -1,0 +1,197 @@
+[
+    {
+        "_first_name": "Sarah",
+        "_last_name": "Lee",
+        "_base_salary": 70000,
+        "_experience": 10,
+        "_team": [
+            {
+                "_first_name": "John",
+                "_last_name": "Doe",
+                "_base_salary": 55000,
+                "_experience": 5,
+                "class": "Developer"
+            },
+            {
+                "_first_name": "Alice",
+                "_last_name": "Smith",
+                "_base_salary": 60000,
+                "_experience": 7,
+                "class": "Developer"
+            },
+            {
+                "_first_name": "Tom",
+                "_last_name": "Harris",
+                "_base_salary": 62000,
+                "_experience": 6,
+                "class": "Developer"
+            },
+            {
+                "_first_name": "Tanya",
+                "_last_name": "Taylor",
+                "_base_salary": 50000,
+                "_experience": 4,
+                "_eff_coeff": 0.8,
+                "class": "Designer"
+            },
+            {
+                "_first_name": "Eva",
+                "_last_name": "Johnson",
+                "_base_salary": 52000,
+                "_experience": 6,
+                "_eff_coeff": 0.9,
+                "class": "Designer"
+            },
+            {
+                "_first_name": "Rachel",
+                "_last_name": "Martinez",
+                "_base_salary": 48000,
+                "_experience": 3,
+                "_eff_coeff": 0.85,
+                "class": "Designer"
+            }
+        ],
+        "class": "Manager"
+    },
+    {
+        "_first_name": "Mark",
+        "_last_name": "White",
+        "_base_salary": 75000,
+        "_experience": 12,
+        "_team": [
+            {
+                "_first_name": "Olivia",
+                "_last_name": "Brown",
+                "_base_salary": 68000,
+                "_experience": 8,
+                "class": "Developer"
+            },
+            {
+                "_first_name": "William",
+                "_last_name": "Clark",
+                "_base_salary": 52000,
+                "_experience": 5,
+                "_eff_coeff": 0.25,
+                "class": "Designer"
+            },
+            {
+                "_first_name": "Chloe",
+                "_last_name": "Rodriguez",
+                "_base_salary": 46000,
+                "_experience": 4,
+                "_eff_coeff": 0.75,
+                "class": "Designer"
+            }
+        ],
+        "class": "Manager"
+    },
+    {
+        "_first_name": "Emma",
+        "_last_name": "Lopez",
+        "_base_salary": 78000,
+        "_experience": 14,
+        "_team": [
+            {
+                "_first_name": "James",
+                "_last_name": "Wilson",
+                "_base_salary": 54000,
+                "_experience": 4,
+                "class": "Developer"
+            },
+            {
+                "_first_name": "Liam",
+                "_last_name": "Davis",
+                "_base_salary": 71000,
+                "_experience": 9,
+                "class": "Developer"
+            },
+            {
+                "_first_name": "Sophia",
+                "_last_name": "Miller",
+                "_base_salary": 65000,
+                "_experience": 7,
+                "class": "Developer"
+            },
+            {
+                "_first_name": "Megan",
+                "_last_name": "Lewis",
+                "_base_salary": 55000,
+                "_experience": 7,
+                "_eff_coeff": 0.65,
+                "class": "Designer"
+            }
+        ],
+        "class": "Manager"
+    },
+    {
+        "_first_name": "David",
+        "_last_name": "Martinez",
+        "_base_salary": 80000,
+        "_experience": 15,
+        "_team": [
+            {
+                "_first_name": "Ethan",
+                "_last_name": "Walker",
+                "_base_salary": 60000,
+                "_experience": 6,
+                "_eff_coeff": 0.8,
+                "class": "Designer"
+            },
+            {
+                "_first_name": "Ava",
+                "_last_name": "Young",
+                "_base_salary": 51000,
+                "_experience": 4,
+                "_eff_coeff": 0.1,
+                "class": "Designer"
+            },
+            {
+                "_first_name": "Jackson",
+                "_last_name": "Scott",
+                "_base_salary": 53000,
+                "_experience": 5,
+                "_eff_coeff": 0.85,
+                "class": "Designer"
+            }
+        ],
+        "class": "Manager"
+    },
+    {
+        "_first_name": "Charlotte",
+        "_last_name": "Gonzalez",
+        "_base_salary": 73000,
+        "_experience": 11,
+        "_team": [
+            {
+                "_first_name": "Lucas",
+                "_last_name": "Anderson",
+                "_base_salary": 53000,
+                "_experience": 3,
+                "class": "Developer"
+            },
+            {
+                "_first_name": "Mia",
+                "_last_name": "Thomas",
+                "_base_salary": 49000,
+                "_experience": 2,
+                "class": "Developer"
+            },
+            {
+                "_first_name": "Benjamin",
+                "_last_name": "Jackson",
+                "_base_salary": 66000,
+                "_experience": 6,
+                "class": "Developer"
+            },
+            {
+                "_first_name": "Grace",
+                "_last_name": "King",
+                "_base_salary": 54000,
+                "_experience": 6,
+                "_eff_coeff": 0.7,
+                "class": "Designer"
+            }
+        ],
+        "class": "Manager"
+    }
+]

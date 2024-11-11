@@ -1,0 +1,26 @@
+[
+    {
+        "_first_name": "Deya",
+        "_last_name": "Atanasova",
+        "_base_salary": 5000,
+        "_experience": 5,
+        "_team": [
+            {
+                "_first_name": "Krasimir",
+                "_last_name": "Zoykov",
+                "_base_salary": 1500,
+                "_experience": 2,
+                "class": "Developer"
+            },
+            {
+                "_first_name": "Gabriela",
+                "_last_name": "Stoeva",
+                "_base_salary": 1600,
+                "_experience": 3,
+                "_eff_coeff": 0.9,
+                "class": "Designer"
+            }
+        ],
+        "class": "Manager"
+    }
+]
