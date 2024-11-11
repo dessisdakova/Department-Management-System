@@ -92,7 +92,7 @@ class Department:
                                 employee_data["_eff_coeff"])
         return employee
 
-    def load_employees(self, filename="employees.json"):
+    def load_employees(self, filename: str = "employees.json"):
         """Reads a file and creates the structure for employees"""
         full_filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../data", filename)
         try:

@@ -53,7 +53,7 @@ class TestAddManagerAndRemoveManagerFunctions:
 
 
 class TestGiveSalaryFunction:
-    def test_give_salary(self):
+    def test_give_salary(self, capsys):
         team = [
             Developer("Krasimir", "Zoykov", 1500, 0),
             Developer("Momchil", "Slavov", 3000, 2)
@@ -61,20 +61,19 @@ class TestGiveSalaryFunction:
         man = Manager("Deya", "Atanasova", 3500, 2, team)
         dep = Department([man])
 
+        dep.give_salary()
+
+        captured = capsys.readouterr()
         expected_output = (
             f"{man.first_name} {man.last_name} received {round(man.calculate_salary())} money.\n"
             f"{man.team[0].first_name} {man.team[0].last_name} received {round(man.team[0].calculate_salary())} money.\n"
             f"{man.team[1].first_name} {man.team[1].last_name} received {round(man.team[1].calculate_salary())} money.\n"
         )
-
-        with patch("builtins.print") as mocked_print:
-            dep.give_salary()
-            actual_output = "\n".join(call.args[0] for call in mocked_print.call_args_list) + "\n"
-            assert actual_output == expected_output, "The printed output did not match the expected output."
+        assert captured.out == expected_output, "The printed output did not match the expected output."
 
 
 class TestPrintEmployeesSortedByNameFunction:
-    def test_print_employee_sorted_by_name(self):
+    def test_print_employee_sorted_by_name(self, capsys):
         team = [
             Developer("Krasimir", "Zoykov", 1500, 0),
             Developer("Momchil", "Slavov", 3000, 2)
@@ -82,16 +81,15 @@ class TestPrintEmployeesSortedByNameFunction:
         man = Manager("Deya", "Atanasova", 3500, 2, team)
         dep = Department([man])
 
+        dep.print_employees_sorted_by_name()
+
+        captured = capsys.readouterr()
         expected_output = (
             "Deya Atanasova - Manager\n"
             "Krasimir Zoykov - Developer\n"
             "Momchil Slavov - Developer\n"
         )
-
-        with patch("builtins.print") as mocked_print:
-            dep.print_employees_sorted_by_name()
-            actual_output = "\n".join(call.args[0] for call in mocked_print.call_args_list) + "\n"
-            assert actual_output == expected_output, "The printed output did not match the expected output."
+        assert captured.out == expected_output, "The printed output did not match the expected output."
 
 
 class TestSerializationAndDeserializationOfData:
@@ -160,3 +158,13 @@ class TestSerializationAndDeserializationOfData:
                 if isinstance(emp, Designer):
                     assert hasattr(emp, "eff_coeff")
                     assert emp.first_name == "Gabriela", "Incorrect values are loaded."
+
+    def test_load_employees_handles_error(self, capsys):
+        dep = Department()
+        invalid_file = "non_existing_file.json"
+
+        dep.load_employees(str(invalid_file))
+
+        captured = capsys.readouterr()  # Capture the printed output
+
+        assert captured.out == f"Error: The file {invalid_file} was not found.\n"
