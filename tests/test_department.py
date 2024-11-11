@@ -3,7 +3,6 @@ import pytest
 import os
 import re
 from models import *
-from unittest.mock import patch
 
 
 class TestInitializing:
