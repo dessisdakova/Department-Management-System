@@ -23,7 +23,7 @@ class TestAddManagerAndRemoveManagerFunctions:
 
     def test_add_non_manager_object(self):
         dep = Department()
-        with pytest.raises(TypeError, match="Only Manages can be added to the list."):
+        with pytest.raises(TypeError, match="Only Managers can be added to the list."):
             dep.add_manager(Developer("Deya", "Atanasova", 3500, 2))
 
     def test_add_manager_successfully(self, dep_with_one_manager):
@@ -95,6 +95,23 @@ class TestPrintEmployeesSortedByNameFunction:
 
 
 class TestSerializationAndDeserializationOfData:
+    def test_serialize_employee_with_invalid_class(self, capsys):
+        emp = Employee("Stefka", "Petkova", 1000, 0)
+
+        Department.serialize_employee(emp)
+        captured = capsys.readouterr()
+
+        assert captured.out == f"{type(emp).__name__} - unknown class.\n"
+
+    def test_serialize_employee_with_valid_class(self):
+        dev = Developer("Stefka", "Petkova", 1000, 0)
+
+        actual = Department.serialize_employee(dev)
+        expected = dev.__dict__.copy()
+        expected["class"] = "Developer"
+
+        assert actual == expected
+
     def test_save_employees(self):
         # Setup sample data
         dev = Developer("Krasimir", "Zoykov", 1500, 2)
@@ -137,6 +154,34 @@ class TestSerializationAndDeserializationOfData:
         for prop in expected_attr_for_des:
             assert prop in data[0]["_team"][1]
         assert data[0]["_team"][1]["_first_name"] == "Gabriela", "Designer's first name does not match."
+
+    def test_deserialize_employee_with_invalid_data(self):
+        test_data = {
+            "_first_name": "Some",
+            "_last_name": "Other",
+            "_base_salary": 1500,
+            "_experience": 1,
+            "class": "Student"
+        }
+
+        with pytest.raises(ValueError, match=f"{test_data} is not a valid Developer, Designer or Manager."):
+            Department.deserialize_employee(test_data)
+
+    def test_deserialize_employee_with_valid_data(self):
+        test_data = {
+            "_first_name": "Some",
+            "_last_name": "Other",
+            "_base_salary": 1500,
+            "_experience": 1,
+            "class": "Developer"
+        }
+        obj = Department.deserialize_employee(test_data)
+
+        assert isinstance(obj, Developer), "Incorrect class type."
+        assert obj.first_name == "Some", "First name does not match."
+        assert obj.last_name == "Other", "Last name does not match."
+        assert obj.base_salary == 1500, "Base salary does not match."
+        assert obj.experience == 1, "Experience does not match."
 
     def test_load_employees(self):
         dep = Department()

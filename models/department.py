@@ -16,11 +16,36 @@ class Department:
     def managers(self):
         return self._managers
 
+    @staticmethod
+    def serialize_employee(employee):
+        """Serializes an object into dictionary and adds its class"""
+        employee_dictionary = employee.__dict__.copy()  # Serializes object using dunder method __dict__
+        if isinstance(employee, (Developer, Designer, Manager)):
+            employee_dictionary["class"] = type(employee).__name__  # Add an additional key for class
+            return employee_dictionary
+        else:
+            print(f"{type(employee).__name__} - unknown class.")
+
+    @staticmethod
+    def deserialize_employee(employee_data):
+        """Deserializes dictionary and creates an object of corresponding class"""
+        employee_args = [employee_data["_first_name"], employee_data["_last_name"],
+                         employee_data["_base_salary"], employee_data["_experience"]]
+        if employee_data["class"] == "Manager":
+            return Manager(*employee_args)
+        elif employee_data["class"] == "Developer":
+            return Developer(*employee_args)
+        elif employee_data["class"] == "Designer":
+            employee_args.append(employee_data["_eff_coeff"])
+            return Designer(*employee_args)
+        else:
+            raise ValueError(f"{employee_data} is not a valid Developer, Designer or Manager.")
+
     def add_manager(self, *managers: Manager):
         """Adds manager to the list"""
         for new_manager in managers:
             if not isinstance(new_manager, Manager):
-                raise TypeError("Only Manages can be added to the list.")
+                raise TypeError("Only Managers can be added to the list.")
 
             for current_manager in self.managers:
                 if new_manager.first_name == current_manager.first_name and \
@@ -57,19 +82,6 @@ class Department:
         for employee in sorted_employees:
             print(f"{employee.first_name} {employee.last_name} - {type(employee).__name__}")
 
-    def serialize_employee(self, emp):
-        """Serializes one object into dictionary and adds its class"""
-        employee_dictionary = emp.__dict__.copy()  # Serializes object using dunder method __dict__
-
-        if isinstance(emp, Developer):  # Check which class the object belongs to and adds an additional key
-            employee_dictionary["class"] = str(type(emp).__name__)
-        if isinstance(emp, Designer):
-            employee_dictionary["class"] = str(type(emp).__name__)
-        if isinstance(emp, Manager):
-            employee_dictionary["class"] = str(type(emp).__name__)
-
-        return employee_dictionary
-
     def save_employees(self, filename="employees.json"):
         """Creates a file, saves serialized objects in a list and writes the list in a JSON file"""
         full_filename = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../data", filename)
@@ -84,20 +96,6 @@ class Department:
             json.dump(all_employees, file, indent=4)
 
         print(f"Data saved to '{filename}' in data folder.")
-
-    def deserialize_employee(self, employee_data):
-        """Deserializes dictionary and creates an object of corresponding class"""
-        if employee_data["class"] == "Manager":
-            employee = Manager(employee_data["_first_name"], employee_data["_last_name"],
-                               employee_data["_base_salary"], employee_data["_experience"])
-        elif employee_data["class"] == "Developer":
-            employee = Developer(employee_data["_first_name"], employee_data["_last_name"],
-                                 employee_data["_base_salary"], employee_data["_experience"])
-        elif employee_data["class"] == "Designer":
-            employee = Designer(employee_data["_first_name"], employee_data["_last_name"],
-                                employee_data["_base_salary"], employee_data["_experience"],
-                                employee_data["_eff_coeff"])
-        return employee
 
     def load_employees(self, filename: str = "employees.json"):
         """Reads a file and creates the structure for employees"""
