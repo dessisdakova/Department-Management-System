@@ -21,12 +21,12 @@ class TestInitializing:
 
 
 class TestCalculateSalaryFunction:
-    @pytest.mark.parametrize("eff_coeff, expected", [
-        (0.9, 1350),
-        (0.78, 1170)
+    @pytest.mark.parametrize("base, eff_coeff, expected", [
+        (1500, 0.9, 1350),
+        (1500, 0.78, 1170)
     ])
-    def test_calculate_salary(self, eff_coeff, expected):
-        designer = Designer("Ivan", "Stefanov", 1500, 1, eff_coeff)
+    def test_calculate_salary(self, base, eff_coeff, expected):
+        designer = Designer("Ivan", "Stefanov", base, 1, eff_coeff)
 
         assert designer.calculate_salary() == designer.base_salary + expected, \
-            "Should return salary multiplied by eff_coeff"
+            f"Should return {base} * {eff_coeff} = {expected}"

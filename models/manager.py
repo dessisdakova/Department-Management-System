@@ -19,22 +19,34 @@ class Manager(Employee):
 
     def add_employees_to_team(self, *employees: (Designer, Developer)):
         """Adds an employee to manager's team"""
-        for employee in employees:
-            if not isinstance(employee, (Developer, Designer)):
+        for new_member in employees:
+            if not isinstance(new_member, (Developer, Designer)):
                 raise TypeError("Only Designers and Developer can be added to team.")
 
-            if employee in self._team:
-                raise ValueError(f"{employee.first_name} {employee.last_name} "
-                                 f"({type(employee).__name__}) is already in this team.")
-            self._team.append(employee)
+            for team_member in self.team:
+                if new_member.first_name == team_member.first_name \
+                        and new_member.last_name == team_member.last_name \
+                        and type(new_member).__name__ == type(team_member).__name__:
+                    raise ValueError(f"{new_member.first_name} {new_member.last_name} "
+                                     f"({type(new_member).__name__}) is already in this team.")
+            self._team.append(new_member)
 
     def remove_employees_from_team(self, *employees: (Designer, Developer)):
         """Removes an employee from manager's team"""
-        for employee in employees:
-            if employee not in self._team:
-                raise ValueError(f"{employee.first_name} {employee.last_name} "
-                                 f"({type(employee).__name__}) is not part of this team.")
-            self._team.remove(employee)
+        for member_to_remove in employees:
+            if not isinstance(member_to_remove, (Developer, Designer)):
+                raise TypeError("Only Designers and Developer can be added to team.")
+
+            for team_member in self.team:
+                if member_to_remove.first_name != team_member.first_name \
+                        and member_to_remove.last_name != team_member.last_name \
+                        and type(member_to_remove).__name__ != type(team_member).__name__:
+                    raise ValueError(f"{member_to_remove.first_name} {member_to_remove.last_name} "
+                                     f"({type(member_to_remove).__name__}) is not part of this team.")
+                elif member_to_remove.first_name == team_member.first_name \
+                        and member_to_remove.last_name == team_member.last_name \
+                        and type(member_to_remove).__name__ == type(team_member).__name__:
+                    self._team.remove(team_member)
 
     def __str__(self):
         """Returns a descriptive string representation for each manager.

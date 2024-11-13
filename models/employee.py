@@ -2,25 +2,32 @@ class Employee:
     """Base class for employees"""
     def __init__(self, f_name: str, l_name: str, b_salary: float, exp: int):
         """(Constructor) Creates an object with given attributes"""
-        if not f_name.isalpha():
-            raise ValueError("First name must contains alphabetic characters only.")
-        self._first_name = f_name
+        self._first_name = self.validate_name(f_name, "First name")
+        self._last_name = self.validate_name(l_name, "Last name")
+        self._base_salary = self.validate_base_salary(b_salary)
+        self._experience = self.validate_experience(exp)
 
-        if not l_name.isalpha():
-            raise ValueError("Last name must contains alphabetic characters only.")
-        self._last_name = l_name
+    @staticmethod
+    def validate_name(name: str, attribute: str) -> str:
+        if not name.isalpha():
+            raise ValueError(f"{attribute} must contains alphabetic characters only.")
+        return name
 
-        if not isinstance(b_salary, (int, float)):
+    @staticmethod
+    def validate_base_salary(salary: float) -> float:
+        if not isinstance(salary, (int, float)):
             raise TypeError("Base salary must be a number.")
-        if b_salary <= 0:
+        if salary <= 0:
             raise ValueError("Base salary must be bigger than zero.")
-        self._base_salary = b_salary
+        return salary
 
-        if not isinstance(exp, int):
+    @staticmethod
+    def validate_experience(experience: int) -> int:
+        if not isinstance(experience, int):
             raise TypeError("Experience must be an integer.")
-        if exp < 0:
+        if experience < 0:
             raise ValueError("Experience must be a positive integer.")
-        self._experience = exp
+        return experience
 
     @property
     def first_name(self):

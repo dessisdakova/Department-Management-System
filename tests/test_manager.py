@@ -56,7 +56,7 @@ class TestAddEmployeeToTeamFunction:
 
         with pytest.raises(ValueError, match=re.escape(f"{des.first_name} {des.last_name} "
                                                        f"({type(des).__name__}) is already in this team.")):
-            man.add_employees_to_team(des)
+            man.add_employees_to_team(Designer("Gabriela", "Stoeva", 1500, 1, 0.99))
 
 
 class TestRemoveEmployeeToTeamFunction:
@@ -67,10 +67,17 @@ class TestRemoveEmployeeToTeamFunction:
         ]
         man = Manager("Ivan", "Stefanov", 5000, 5, team)
 
-        man.remove_employees_from_team(man.team[0])
+        man.remove_employees_from_team(Developer("Krasimir", "Zoykov", 1500, 0))
 
         assert len(man.team) == 1, "Employees should be removed from team."
         assert man.team[0].first_name == "Gabriela", "Correct employee should be removed from team."
+
+    def test_removing_employee_with_invalid_type(self):
+        des = ("Gabriela", "Stoeva", 1500, 1, 0.99)
+        man = Manager("Ivan", "Stefanov", 5000, 5)
+
+        with pytest.raises(TypeError, match="Only Designers and Developer can be added to team."):
+            man.remove_employees_from_team(des)
 
     def test_removing_employee_that_is_not_in_team(self):
         dev = Developer("Mihail", "Atanasov", 4000, 3)

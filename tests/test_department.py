@@ -14,41 +14,42 @@ class TestInitializing:
 
 
 class TestAddManagerAndRemoveManagerFunctions:
-    def test_adding_non_manager_object(self):
+
+    @pytest.fixture
+    def dep_with_one_manager(self):
+        dep = Department()
+        dep._managers = [Manager("Deya", "Atanasova", 3500, 2)]
+        return dep
+
+    def test_add_non_manager_object(self):
         dep = Department()
         with pytest.raises(TypeError, match="Only Manages can be added to the list."):
             dep.add_manager(Developer("Deya", "Atanasova", 3500, 2))
 
-    def test_adding_manager_successfully(self):
-        dep = Department()
-        man = Manager("Deya", "Atanasova", 3500, 2)
-        dep.add_manager(man)
+    def test_add_manager_successfully(self, dep_with_one_manager):
+        # dep = Department()
+        man = Manager("Ivan", "Stefanov", 5000, 5)
+        dep_with_one_manager.add_manager(man)
 
-        assert len(dep.managers) == 1, "Manager was not added to list."
+        assert len(dep_with_one_manager.managers) == 2, "Manager was not added to list."
 
-    def test_adding_already_added_manager(self):
-        dep = Department()
+    def test_add_already_added_manager(self, dep_with_one_manager):
+        # dep = Department()
         man = Manager("Deya", "Atanasova", 3500, 2)
-        dep.add_manager(man)
         with pytest.raises(ValueError,
                            match=re.escape(f"{man.first_name} {man.last_name} is already in the list.")):
-            dep.add_manager(man)
+            dep_with_one_manager.add_manager(man)
 
-    def test_removing_manager_successfully(self):
-        dep = Department()
+    def test_remove_manager_successfully(self, dep_with_one_manager):
         man = Manager("Deya", "Atanasova", 3500, 2)
-        dep.add_manager(man)
+        dep_with_one_manager.remove_manager(man)
+        assert len(dep_with_one_manager.managers) == 0, "Manager was not removed from list."
 
-        dep.remove_manager(man)
-
-        assert len(dep.managers) == 0, "Manager was not removed from list."
-
-    def test_removing_manager_than_is_not_in_list(self):
-        dep = Department()
-        man = Manager("Deya", "Atanasova", 3500, 2)
+    def test_remove_manager_than_is_not_in_list(self, dep_with_one_manager):
+        man = Manager("Ivan", "Stefanov", 5000, 5)
         with pytest.raises(ValueError,
-                           match=re.escape(f"{man.first_name} {man.last_name} is not in the list.")):
-            dep.remove_manager(man)
+                           match=re.escape(f"{man.first_name} {man.last_name} isn't in the list.")):
+            dep_with_one_manager.remove_manager(man)
 
 
 class TestGiveSalaryFunction:
@@ -74,8 +75,8 @@ class TestGiveSalaryFunction:
 class TestPrintEmployeesSortedByNameFunction:
     def test_print_employee_sorted_by_name(self, capsys):
         team = [
+            Developer("Momchil", "Slavov", 3000, 2),
             Developer("Krasimir", "Zoykov", 1500, 0),
-            Developer("Momchil", "Slavov", 3000, 2)
         ]
         man = Manager("Deya", "Atanasova", 3500, 2, team)
         dep = Department([man])
@@ -83,12 +84,14 @@ class TestPrintEmployeesSortedByNameFunction:
         dep.print_employees_sorted_by_name()
 
         captured = capsys.readouterr()
-        expected_output = (
-            "Deya Atanasova - Manager\n"
-            "Krasimir Zoykov - Developer\n"
-            "Momchil Slavov - Developer\n"
-        )
+        expected_output = f"{self._print(man)}{self._print(team[1])}{self._print(team[0])}"
         assert captured.out == expected_output, "The printed output did not match the expected output."
+
+    def _print(self, Employee):
+        if isinstance(Employee, Developer):
+            return f"{Employee.first_name} {Employee.last_name} - Developer\n"
+        if isinstance(Employee, Manager):
+            return f"{Employee.first_name} {Employee.last_name} - Manager\n"
 
 
 class TestSerializationAndDeserializationOfData:

@@ -18,19 +18,26 @@ class Department:
 
     def add_manager(self, *managers: Manager):
         """Adds manager to the list"""
-        for manager in managers:
-            if not isinstance(manager, Manager):
+        for new_manager in managers:
+            if not isinstance(new_manager, Manager):
                 raise TypeError("Only Manages can be added to the list.")
-            if manager in self.managers:
-                raise ValueError(f"{manager.first_name} {manager.last_name} is already in the list.")
-            self.managers.append(manager)
+
+            for current_manager in self.managers:
+                if new_manager.first_name == current_manager.first_name and \
+                        new_manager.last_name == current_manager.last_name:
+                    raise ValueError(f"{new_manager.first_name} {new_manager.last_name} is already in the list.")
+            self.managers.append(new_manager)
 
     def remove_manager(self, *managers: Manager):
         """Removes manager from the list"""
-        for manager in managers:
-            if manager not in self.managers:
-                raise ValueError(f"{manager.first_name} {manager.last_name} is not in the list.")
-            self.managers.remove(manager)
+        for manager_to_remove in managers:
+            for current_manager in self.managers:
+                if manager_to_remove.first_name != current_manager.first_name and \
+                        manager_to_remove.last_name != current_manager.last_name:
+                    raise ValueError(f"{manager_to_remove.first_name} {manager_to_remove.last_name} isn't in the list.")
+                elif manager_to_remove.first_name == current_manager.first_name and \
+                        manager_to_remove.last_name == current_manager.last_name:
+                    self.managers.remove(current_manager)
 
     def give_salary(self):
         """Prints all the employees in the department and their calculated salary"""

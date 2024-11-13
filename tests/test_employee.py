@@ -36,7 +36,7 @@ class TestCalculateSalaryFunction:
     def test_calculate_salary_experience_less_than_two_years(self, base, experience, expected):
         employee = Employee("Ivan", "Stefanov", base, experience)
 
-        assert employee.calculate_salary() == expected, "Should return base salary"
+        assert employee.calculate_salary() == expected, f"Should return {base}"
 
     @pytest.mark.parametrize("base, experience, expected", [
         (2000, 3, 2200),
@@ -45,7 +45,7 @@ class TestCalculateSalaryFunction:
     def test_calculate_salary_experience_more_than_two_less_than_five_years(self, base, experience, expected):
         employee = Employee("Ivan", "Stefanov", base, experience)
 
-        assert employee.calculate_salary() == expected, "Should return base salary + 200"
+        assert employee.calculate_salary() == expected, f"Should return {base} + 200 = {expected}"
 
     @pytest.mark.parametrize("base, experience, expected", [
         (5500, 6, 7100),
@@ -54,4 +54,4 @@ class TestCalculateSalaryFunction:
     def test_calculate_salary_experience_more_than_five_years(self, base, experience, expected):
         employee = Employee("Ivan", "Stefanov", base, experience)
 
-        assert employee.calculate_salary() == expected, "Should return base salary * 1.2 + 500"
+        assert employee.calculate_salary() == expected, f"Should return {base} * 1.2 + 500 = {expected}"
